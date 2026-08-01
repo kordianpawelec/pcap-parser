@@ -3,7 +3,7 @@
 #include "reader.h"
 
 static unsigned char buff[24];
-
+int buff_idx = 0;
 
 
 
@@ -62,7 +62,12 @@ int main(int argc, char const *argv[])
     }
 
     parse_ethernet_header(packet_buff);
-    parse_ipv4_header(packet_buff + 14);
+    buff_idx += 14;
+    ipv4_header ipv4 = parse_ipv4_header(packet_buff + buff_idx);
+    size_t ipv4_l = (ipv4.version_ihl & 0x0f) * 4;
+    buff_idx += ipv4_l;
+
+    tcp_header tcp = parse_tcp_header(packet_buff + buff_idx);
 
     free(packet_buff);
         

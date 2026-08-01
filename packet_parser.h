@@ -11,6 +11,20 @@ typedef enum
     UDP
 } link_type;
 
+typedef struct {
+    uint16_t src_port;
+    uint16_t dst_port;
+    uint32_t sqc_n;
+    uint32_t ack_n;
+    uint8_t data_offset_reserved;
+    uint8_t flags; //cwr_ece_urg_ack_psh_rst_syn_fin
+    uint16_t window;
+    uint16_t checksum;
+    uint16_t u_ptr;
+    uint32_t optional;
+} tcp_header;
+
+
 typedef struct
 {
     uint8_t version_ihl;
@@ -58,4 +72,5 @@ ipv4_header parse_ipv4_header(unsigned char *buff);
 packet_header_16_bytes parse_packet_header(unsigned char* buff);
 void parse_pcap_headers(unsigned char* buff);
 void parse_ethernet_header(unsigned char *buff);
+tcp_header parse_tcp_header(unsigned char *buff);
 

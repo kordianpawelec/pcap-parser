@@ -68,6 +68,44 @@ ipv4_header parse_ipv4_header(unsigned char *buff)
     return ipv4;
 }
 
+
+tcp_header parse_tcp_header(unsigned char *buff)
+{
+    tcp_header tcp;
+
+    tcp.src_port = ((uint16_t)buff[0] << 8) | ((uint16_t)buff[1]);
+    tcp.dst_port = ((uint16_t)buff[2] << 8) | ((uint16_t)buff[3]);
+    tcp.sqc_n = ((uint32_t)buff[4] << 24) | ((uint32_t)buff[5] << 16) | ((uint32_t)buff[6] << 8) | ((uint32_t)buff[7]);
+    tcp.ack_n = ((uint32_t)buff[8] << 24) | ((uint32_t)buff[9] << 16) | ((uint32_t)buff[10] << 8) | ((uint32_t)buff[11]);
+    tcp.data_offset_reserved = ((uint8_t)buff[12]);
+    tcp.flags = ((uint8_t)buff[13]);
+    tcp.window = ((uint16_t)buff[14] << 8) | ((uint16_t)buff[15]);
+    tcp.checksum = ((uint16_t)buff[16] << 8) | ((uint16_t)buff[17]);
+    tcp.u_ptr = ((uint16_t)buff[18] << 8) | ((uint16_t)buff[19]);
+    // tcp.sqc_n = ((uint32_t)buff[4] << 24) | ((uint32_t)buff[5] << 16) | ((uint32_t)buff[6] << 8) | ((uint16_t)buff[7]);
+
+    printf("\n\n\n");
+    printf("src_port                %u\n", tcp.src_port);
+    printf("dst_port                %u\n", tcp.dst_port);
+    printf("sqc number              %u\n", tcp.sqc_n);
+    printf("ack number              %u\n", tcp.ack_n);
+    printf("data ofset              %u\n", tcp.data_offset_reserved >> 4);
+    printf("reversed                %u\n", tcp.data_offset_reserved & 0x0f);
+    printf("cwr                     %u\n", (tcp.flags & 0x80) != 0);
+    printf("ece                     %u\n", (tcp.flags & 0x40) != 0);
+    printf("urg                     %u\n", (tcp.flags & 0x20) != 0);
+    printf("ack                     %u\n", (tcp.flags & 0x10) != 0);
+    printf("psh                     %u\n", (tcp.flags & 0x08) != 0);
+    printf("rst                     %u\n", (tcp.flags & 0x04) != 0);
+    printf("syn                     %u\n", (tcp.flags & 0x02) != 0);
+    printf("fin                     %u\n", (tcp.flags & 0x01) != 0);
+    printf("window                  %u\n", tcp.window);
+    printf("checksum                %u\n", tcp.checksum);
+    printf("u_ptr                   %u\n", tcp.u_ptr);
+
+    return tcp;
+
+}
 void parse_ipv6(unsigned char *buff)
 {
 
