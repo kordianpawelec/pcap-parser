@@ -11,6 +11,20 @@ typedef enum
     UDP
 } link_type;
 
+typedef struct
+{
+    uint8_t version_ihl;
+    uint8_t tos;
+    uint16_t total_length;
+    uint16_t identification;
+    uint16_t flags_fragment;
+    uint8_t ttl;
+    uint8_t protocol;
+    uint16_t header_checksum;
+    uint32_t src_addr;
+    uint32_t dst_addr;
+} ipv4_header;
+
 typedef struct 
 {
     uint32_t magic_number;
@@ -40,7 +54,7 @@ typedef struct
 
 void parse_arp(unsigned char *buff);
 void parse_ipv6(unsigned char *buff);
-void parse_ipv4(unsigned char *buff);
+ipv4_header parse_ipv4_header(unsigned char *buff);
 packet_header_16_bytes parse_packet_header(unsigned char* buff);
 void parse_pcap_headers(unsigned char* buff);
 void parse_ethernet_header(unsigned char *buff);

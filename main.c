@@ -62,6 +62,7 @@ int main(int argc, char const *argv[])
     }
 
     parse_ethernet_header(packet_buff);
+    parse_ipv4_header(packet_buff + 14);
 
     free(packet_buff);
         
