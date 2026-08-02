@@ -66,8 +66,41 @@ int main(int argc, char const *argv[])
     ipv4_header ipv4 = parse_ipv4_header(packet_buff + buff_idx);
     size_t ipv4_l = (ipv4.version_ihl & 0x0f) * 4;
     buff_idx += ipv4_l;
-
     tcp_header tcp = parse_tcp_header(packet_buff + buff_idx);
+
+    size_t tcp_h_l = (tcp.data_offset_reserved >> 4) * 4;
+    if (tcp_h_l < 20 || buff_idx + tcp_h_l > next_packet_size)
+    {
+        printf("Invalid TCP header length\n");
+        free(packet_buff);
+        fclose(p);
+        return 1;
+    }
+
+    size_t payload_l = ipv4.total_length - ipv4_l - tcp_h_l;
+
+
+    if(ipv4.total_length < ipv4_l + tcp_h_l)
+    {
+        printf("Invalid IPv4/TCP lengths\n");
+        free(packet_buff);
+        fclose(p);
+        return 1;
+    }
+
+    printf("Payload size for the tcp packet: %zu", payload_l);
+
+
+    for (size_t i = 0; i < payload_l; i++)
+    {
+        unsigned char byte = packet_buff[buff_idx + i];
+
+        if (isprint(byte) || byte == '\r' || byte == '\n' || byte == '\t')
+            putchar(byte);
+        else
+            putchar('.');
+    }
+    printf("\n");
 
     free(packet_buff);
         
