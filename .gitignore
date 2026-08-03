@@ -1,4 +1,8 @@
 .vscode
 reader
+reader.dSYM
+*log*
+*info*
+
 pcap_parser_packet_boundaries_guide.md
 smallFlows.pcap
