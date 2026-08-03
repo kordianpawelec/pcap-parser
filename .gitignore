@@ -1,3 +1,4 @@
 .vscode
-reader.*
 reader
+pcap_parser_packet_boundaries_guide.md
+smallFlows.pcap

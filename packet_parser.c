@@ -69,19 +69,19 @@ ethernet_headers parse_ethernet_header(unsigned char *buff)
     uint16_t link =
         ((uint16_t)buff[12]) << 8 |
         ((uint16_t)buff[13]);
-
+    
     if (link == 0x0800)
-        ethernet.ethernet_type = ETHERTYPE_IPV4;
+        ethernet.ethernet_t = ETHERTYPE_IPV4;
     else if (link == 0x0806)
-        ethernet.ethernet_type = ETHERTYPE_ARP;
+        ethernet.ethernet_t = ETHERTYPE_ARP;
     else if (link == 0x86DD)
-        ethernet.ethernet_type = ETHERTYPE_IPV6;
+        ethernet.ethernet_t = ETHERTYPE_IPV6;
     else if (link == 0x8100)
-        ethernet.ethernet_type = ETHERTYPE_VLAN;
+        ethernet.ethernet_t = ETHERTYPE_VLAN;
     else if (link == 0x88CC)
-        ethernet.ethernet_type = ETHERTYPE_VLAN;
+        ethernet.ethernet_t = ETHERTYPE_LLDP;
     else
-        ethernet.ethernet_type = ETHERTYPE_UNKNOWN;
+        ethernet.ethernet_t = ETHERTYPE_UNKNOWN;
 
     return ethernet;
 }
@@ -132,16 +132,16 @@ pcap_headers parse_pcap_header(unsigned char* buff)
     switch (type)
     {
     case PCAP_LINKTYPE_ETHERNET:
-        header.ethernet_type = PCAP_LINKTYPE_ETHERNET;
+        header.pcap_link_type = PCAP_LINKTYPE_ETHERNET;
         break;
     case PCAP_LINKTYPE_WIFI:
-        header.ethernet_type = PCAP_LINKTYPE_WIFI;
+        header.pcap_link_type = PCAP_LINKTYPE_WIFI;
         break;
     case PCAP_LINKTYPE_RAW:
-        header.ethernet_type = PCAP_LINKTYPE_RAW;
+        header.pcap_link_type = PCAP_LINKTYPE_RAW;
         break;
     default:
-        header.ethernet_type = PCAP_LINKTYPE_UNKNOWN;
+        header.pcap_link_type = PCAP_LINKTYPE_UNKNOWN;
         break;
     }
     return header;

@@ -56,7 +56,7 @@ typedef struct
     int32_t  thiszone;
     uint32_t sigfigs;
     uint32_t snap_length;
-    uint32_t ethernet_type;
+    pcap_link_type pcap_link_type;
 } pcap_headers;
 
 typedef struct 
@@ -71,7 +71,7 @@ typedef struct
 {
     uint8_t dst_mac[6];
     uint8_t src_mac[6];
-    uint16_t ethernet_type;
+    ethernet_type ethernet_t;
 } ethernet_headers;
 
 

@@ -14,9 +14,13 @@ int main(void)
         return 1;
 
 
-    int return_code = process_pcap(p);
-    if (return_code == -1)
+    int status = process_pcap(p);
+    if (status == -1)
+    {
+        fprintf(stderr, "Closing a program\n");
+        fclose(p);
         return 1;
-
+    }
+    fclose(p);
     return 0;
 }
